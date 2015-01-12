@@ -1,6 +1,17 @@
-pollutantmean <- function(directory, pollutant, id = 1:332) {
+pollutantmean <- function(directory, pollutant, id) {
         ## 'directory' is a character vector of length 1 indicating
         ## the location of the CSV files
+		directory;
+		#id;
+		
+		for(i in seq_along(id)) {
+			#print(i)
+			#name_with_left_pad <- str_pad(id[i], width=3, side="left", pad="0");
+			name_with_left_pad <- sprintf("%03d", id[i]);
+			name_file <-paste0(name_with_left_pad,".csv");
+			x<-read.csv(name_file);
+			print(x);
+		}
 
         ## 'pollutant' is a character vector of length 1 indicating
         ## the name of the pollutant for which we will calculate the
