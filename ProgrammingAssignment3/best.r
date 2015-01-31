@@ -18,10 +18,9 @@ best <- function(state, outcome=NULL) {
     stop 
   }
   
-  file<-read.csv(file = "ProgrammingAssignment3/outcome-of-care-measures.csv")
-  statehospitalnameoutcome <- file[file["State"]==state & file[outcome]!="Not Available", c("Hospital.Name", outcome)]
-  #besthospital<-min(as.numeric(as.matrix(statehospitalnameoutcome[outcome])), na.rm = TRUE)
-  minimail<-print(min(as.numeric(as.matrix(statehospitalnameoutcome[outcome]))))
-  besthospital<-statehospitalnameoutcome[as.numeric(as.matrix(statehospitalnameoutcome[outcome])) == minimail, c("Hospital.Name", outcome)]  
-  besthospital
+  file<-read.csv(file = "outcome-of-care-measures.csv")
+  statehospitalnameoutcome <- file[!is.na(file["State"]) & !is.na(file[outcome]) & file["State"]==state & file[outcome]!="Not Available", c("Hospital.Name", outcome)]
+  minimail<-min(as.numeric(as.matrix(statehospitalnameoutcome[outcome])))
+  besthospital<-statehospitalnameoutcome[as.numeric(as.matrix(statehospitalnameoutcome[outcome])) == minimail, "Hospital.Name"]  
+  as.character(besthospital[[1]])
 }
