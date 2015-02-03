@@ -4,6 +4,15 @@ best <- function(state, outcome=NULL) {
   ## Return hospital name in that state with lowest 30-day death
   ## rate
   
+  validatestate<-function(state1){
+        if(state1==state) {return(1)}
+        else {return(0)};
+   }
+
+  statescorrect<-sum(sapply(      Filter(Negate(is.null), as.character(file[["State"]])), validatestate))
+  if(statescorrect==0)
+    stop("invalid state")    
+  
   #State
   #Hospital.Name
   #invalid state
@@ -14,13 +23,13 @@ best <- function(state, outcome=NULL) {
   else if(outcome=="pneumonia")
     outcome<-"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia"
   else{
-    print("invalid outcome")
-    stop 
+    stop("invalid outcome") 
   }
   
   file<-read.csv(file = "outcome-of-care-measures.csv")
   statehospitalnameoutcome <- file[!is.na(file["State"]) & !is.na(file[outcome]) & file["State"]==state & file[outcome]!="Not Available", c("Hospital.Name", outcome)]
-  minimail<-min(as.numeric(as.matrix(statehospitalnameoutcome[outcome])))
+  minimail<-min(as.numeric(as.matrix(statehospitalnameoutcome[outcome])))  
   besthospital<-statehospitalnameoutcome[as.numeric(as.matrix(statehospitalnameoutcome[outcome])) == minimail, "Hospital.Name"]  
   as.character(besthospital[[1]])
+
 }
